@@ -1,37 +1,19 @@
 package model;
 
 public class MonHoc {
-    private int maMH;
-    private String tenMH;
-    private boolean trangThai;
+    private int id;
+    private String tenMon;
 
-    public MonHoc(int maMH, String tenMH, boolean trangThai) {
-        this.maMH = maMH;
-        this.tenMH = tenMH;
-        this.trangThai = trangThai;
+    public MonHoc() {}
+
+    public MonHoc(int id, String tenMon) {
+        this.id = id;
+        this.tenMon = tenMon;
     }
 
-    public int getMaMH() {
-        return maMH;
-    }
-
-    public void setMaMH(int maMH) {
-        this.maMH = maMH;
-    }
-
-    public String getTenMH() {
-        return tenMH;
-    }
-
-    public void setTenMH(String tenMH) {
-        this.tenMH = tenMH;
-    }
-
-    public boolean isTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(boolean trangThai) {
-        this.trangThai = trangThai;
-    }
+    // GETTER - SETTER
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    public String getTenMon() { return tenMon; }
+    public void setTenMon(String tenMon) { this.tenMon = tenMon; }
 }

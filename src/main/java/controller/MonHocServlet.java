@@ -6,62 +6,114 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.Connection;
+import javax.servlet.http.*;
 
 @WebServlet("/monhoc")
 public class MonHocServlet extends HttpServlet {
-    private MonHocDAO monHocDAO;
+    private static final long serialVersionUID = 1L;
+    private MonHocDAO monHocDAO = new MonHocDAO();
 
-    
     @Override
-    public void init() throws ServletException {
-        Connection conn = (Connection) getServletContext().getAttribute("DBConnection");
-        monHocDAO = new MonHocDAO(conn);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getParameter("action");
-        if (action == null) action = "list";
 
-        switch (action) {
-            case "add":
-                request.getRequestDispatcher("monhoc-form.jsp").forward(request, response);
-                break;
-            case "edit":
-                int maMH = Integer.parseInt(request.getParameter("id"));
-                MonHoc monHoc = monHocDAO.getMonHocById(maMH); // Thêm method này trong DAO
-                request.setAttribute("monHoc", monHoc);
-                request.getRequestDispatcher("views/monhoc.jsp").forward(request, response);
-                break;
-            case "delete":
-                monHocDAO.deleteMonHoc(Integer.parseInt(request.getParameter("id")));
-                response.sendRedirect("MonHoc"); // Sửa lại URL redirect đúng mapping
-                break;
-            default:
-                List<MonHoc> list = monHocDAO.getAllMonHoc();
-                request.setAttribute("ListMonHoc", list); // Đổi lại để trùng với JSP
-                request.getRequestDispatcher("views/monhoc.jsp").forward(request, response);
-                break;
+        try {
+            if (action == null) {
+                listMonHoc(request, response);
+            } else {
+                switch (action) {
+                    case "edit":
+                        showEditForm(request, response);
+                        break;
+                    case "delete":
+                        deleteMonHoc(request, response);
+                        break;
+                    default:
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "⚠️ Action không hợp lệ!");
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "❌ Lỗi hệ thống!");
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int maMH = Integer.parseInt(request.getParameter("maMH"));
-        String tenMH = request.getParameter("tenMH");
-        boolean trangThai = Boolean.parseBoolean(request.getParameter("trangThai"));
-
-        MonHoc monHoc = new MonHoc(maMH, tenMH, trangThai);
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if ("edit".equals(action)) {
-            monHocDAO.updateMonHoc(monHoc);
-        } else {
-            monHocDAO.addMonHoc(monHoc);
+        try {
+            if (action == null || action.equals("add")) {
+                insertMonHoc(request, response);
+            } else if (action.equals("update")) {
+                updateMonHoc(request, response);
+            } else {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "⚠️ Action không hợp lệ!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "❌ Lỗi hệ thống!");
+        }
+    }
+
+    // 🟢 Hiển thị danh sách môn học
+    private void listMonHoc(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<MonHoc> danhSachMonHoc = monHocDAO.getAllMonHoc();
+        request.setAttribute("danhSachMonHoc", danhSachMonHoc);
+        request.getRequestDispatcher("views/monhoc.jsp").forward(request, response);
+    }
+
+    // 🟡 Hiển thị form chỉnh sửa môn học
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        MonHoc monHoc = monHocDAO.getMonHocById(id);
+        request.setAttribute("monHoc", monHoc);
+        request.getRequestDispatcher("views/edit_monhoc.jsp").forward(request, response);
+    }
+
+    // 🟠 Thêm mới môn học
+    private void insertMonHoc(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String tenMon = request.getParameter("tenMon");
+
+        if (tenMon.isEmpty()) {
+            request.setAttribute("error", "⚠️ Vui lòng nhập tên môn học!");
+            request.getRequestDispatcher("views/add_monhoc.jsp").forward(request, response);
+            return;
         }
 
-        response.sendRedirect("MonHoc"); // Sửa lại URL redirect đúng mapping
+        MonHoc mh = new MonHoc(0, tenMon);
+        monHocDAO.addMonHoc(mh);
+        response.sendRedirect("monhoc");
+    }
+
+    // 🟢 Cập nhật môn học
+    private void updateMonHoc(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String tenMon = request.getParameter("tenMon");
+
+        if (tenMon.isEmpty()) {
+            request.setAttribute("error", "⚠️ Vui lòng nhập tên môn học!");
+            request.getRequestDispatcher("views/edit_monhoc.jsp").forward(request, response);
+            return;
+        }
+
+        MonHoc mh = new MonHoc(id, tenMon);
+        monHocDAO.updateMonHoc(mh);
+        response.sendRedirect("monhoc");
+    }
+
+    // 🔴 Xóa môn học
+    private void deleteMonHoc(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        monHocDAO.deleteMonHoc(id);
+        response.sendRedirect("monhoc");
     }
 }

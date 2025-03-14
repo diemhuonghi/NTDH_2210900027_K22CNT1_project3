@@ -1,27 +1,27 @@
 package model;
 
 public class DapAn {
-    private int maDA;
-    private int maCH; 
+    private int id;
+    private int cauHoiID;
     private String noiDung;
-    private boolean laDapAnDung; 
+    private boolean dapAnDung;
 
-    public DapAn(int maDA, int maCH, String noiDung, boolean laDapAnDung) {
-        this.maDA = maDA;
-        this.maCH = maCH;
+    public DapAn() {}
+
+    public DapAn(int id, int cauHoiID, String noiDung, boolean dapAnDung) {
+        this.id = id;
+        this.cauHoiID = cauHoiID;
         this.noiDung = noiDung;
-        this.laDapAnDung = laDapAnDung;
+        this.dapAnDung = dapAnDung;
     }
 
-    public int getMaDA() { return maDA; }
-    public void setMaDA(int maDA) { this.maDA = maDA; }
-
-    public int getMaCH() { return maCH; }
-    public void setMaCH(int maCH) { this.maCH = maCH; }
-
+    // GETTER - SETTER
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    public int getCauHoiID() { return cauHoiID; }
+    public void setCauHoiID(int cauHoiID) { this.cauHoiID = cauHoiID; }
     public String getNoiDung() { return noiDung; }
     public void setNoiDung(String noiDung) { this.noiDung = noiDung; }
-
-    public boolean isLaDapAnDung() { return laDapAnDung; }
-    public void setLaDapAnDung(boolean laDapAnDung) { this.laDapAnDung = laDapAnDung; }
+    public boolean isDapAnDung() { return dapAnDung; }
+    public void setDapAnDung(boolean dapAnDung) { this.dapAnDung = dapAnDung; }
 }

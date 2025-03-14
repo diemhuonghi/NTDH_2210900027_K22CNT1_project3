@@ -1,27 +1,36 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!-- login.jsp -->
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="java.util.*" %>
+<%@ page import="javax.servlet.http.HttpSession" %>
+<%
+    HttpSession session1 = request.getSession(false);
+    if (session1 != null && session1.getAttribute("user") != null) {
+        response.sendRedirect("dashboard.jsp");
+        return;
+    }
+    String error = (String) request.getAttribute("error");
+%>
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Đăng Nhập</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f4; }
-        .container { max-width: 400px; margin: 100px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-        input, button { width: 100%; padding: 10px; margin: 10px 0; }
-        button { background: #007bff; color: white; border: none; }
-    </style>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/form.css">
+
+
 </head>
 <body>
-    <div class="container">
-        <h2>Đăng Nhập</h2>
-        <form action="LoginServlet" method="post">
-            <input type="text" name="username" placeholder="Tên đăng nhập" required>
-            <input type="password" name="password" placeholder="Mật khẩu" required>
-            <button type="submit">Đăng Nhập</button>
+    <div class="login-container">
+        <h2>Đăng nhập</h2>
+        <% if (error != null) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+        <form action="<%= request.getContextPath() %>/giaovien" method="post">
+            <input type="hidden" name="action" value="login">
+            <label for="taiKhoan">Tài khoản:</label>
+            <input type="text" id="taiKhoan" name="taiKhoan" required>
+            <label for="matKhau">Mật khẩu:</label>
+            <input type="password" id="matKhau" name="matKhau" required>
+            <button type="submit">Đăng nhập</button>
         </form>
     </div>
 </body>
 </html>
-

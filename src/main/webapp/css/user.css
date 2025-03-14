@@ -1,0 +1,114 @@
+/* 🌿 Định dạng chung */
+body {
+    font-family: 'Georgia', serif;
+    text-align: center;
+    background: url('../images/autumn-bg.jpg') no-repeat center center fixed; 
+    background-size: cover;
+    margin: 0;
+    padding: 20px;
+    color: #5e412f; /* Màu chữ nâu đất */
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* 🍁 Tạo hiệu ứng lá rơi */
+@keyframes fallingLeaves {
+    0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+/* 🍂 Lá rơi */
+.leaf {
+    position: absolute;
+    top: -100px;
+    width: 40px;
+    height: 40px;
+    background: url('../images/la.png') no-repeat center;
+    background-size: contain;
+    opacity: 0.8;
+    animation: fallingLeaves linear infinite;
+}
+
+/* 🌿 Tạo nhiều lá rơi với tốc độ khác nhau */
+.leaf:nth-child(1) { left: 10%; animation-duration: 6s; }
+.leaf:nth-child(2) { left: 25%; animation-duration: 8s; }
+.leaf:nth-child(3) { left: 40%; animation-duration: 10s; }
+.leaf:nth-child(4) { left: 55%; animation-duration: 7s; }
+.leaf:nth-child(5) { left: 70%; animation-duration: 9s; }
+.leaf:nth-child(6) { left: 85%; animation-duration: 5s; }
+
+/* 🍁 Tiêu đề */
+h2, h3 {
+    color: #d35400; /* Màu cam đậm */
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 📜 Danh sách đề thi */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background: rgba(255, 204, 153, 0.8); /* Màu cam nhạt trong suốt */
+    margin: 10px auto;
+    padding: 15px;
+    border-radius: 10px;
+    width: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+/* 🍂 Nút bấm */
+.btn {
+    padding: 12px 20px;
+    margin: 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+/* 🔥 Nút làm bài */
+.btn-primary {
+    background-color: #ff5733; /* Màu cam đậm */
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #c70039; /* Màu đỏ đô khi hover */
+}
+
+/* 🍁 Nút xem điểm */
+.btn-secondary {
+    background-color: #c70039; /* Màu đỏ đô */
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #900c3f;
+}
+
+/* 🍃 Nút đăng xuất */
+.btn-danger {
+    background-color: #5e412f; /* Màu nâu đậm */
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #3c2f2f;
+}
+
+/* 🍂 Hiệu ứng */
+ul li:hover {
+    transform: translateY(-2px);
+    transition: all 0.3s;
+    background: rgba(255, 140, 0, 0.8); /* Màu cam sáng khi hover */
+}

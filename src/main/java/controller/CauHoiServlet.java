@@ -6,59 +6,148 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
-@WebServlet("/CauHoiServlet")
+@WebServlet("/cauhoi")
 public class CauHoiServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private CauHoiDAO cauHoiDAO;
+    private CauHoiDAO cauHoiDAO = new CauHoiDAO();
 
-    public CauHoiServlet() {
-        super();
-        cauHoiDAO = new CauHoiDAO();
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if ("delete".equals(action)) {
-            int maCauHoi = Integer.parseInt(request.getParameter("maCauHoi"));
-            cauHoiDAO.deleteCauHoi(maCauHoi);
-            response.sendRedirect("views/cauhoi.jsp");
-        } else if ("edit".equals(action)) {
-            int maCauHoi = Integer.parseInt(request.getParameter("maCauHoi"));
-            CauHoi ch = cauHoiDAO.getCauHoiById(maCauHoi);
-            request.setAttribute("cauHoi", ch);
-            request.getRequestDispatcher("views/cauhoi_edit.jsp").forward(request, response);
-        } else {
-            List<CauHoi> listCauHoi = cauHoiDAO.getAllCauHoi();
-            request.setAttribute("listCauHoi", listCauHoi);
-            request.getRequestDispatcher("views/cauhoi.jsp").forward(request, response);
+        try {
+            if (action == null) {
+                listCauHoi(request, response);
+            } else {
+                switch (action) {
+                    case "edit":
+                        showEditForm(request, response);
+                        break;
+                    case "delete":
+                        deleteCauHoi(request, response);
+                        break;
+                    default:
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action không hợp lệ!");
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi hệ thống!");
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if ("add".equals(action)) {
-            String noiDung = request.getParameter("noiDung");
-            int maDe = Integer.parseInt(request.getParameter("maDe"));
-            int doKho = Integer.parseInt(request.getParameter("doKho"));
+        try {
+            if (action == null || action.equals("add")) {
+                insertCauHoi(request, response);
+            } else if (action.equals("update")) {
+                updateCauHoi(request, response);
+            } else {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action không hợp lệ!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi hệ thống!");
+        }
+    }
 
-            CauHoi ch = new CauHoi(0, noiDung, maDe, doKho);
+    // 🟢 Hiển thị danh sách câu hỏi
+    private void listCauHoi(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<CauHoi> danhSachCauHoi = cauHoiDAO.getAllCauHoi();
+        request.setAttribute("danhSachCauHoi", danhSachCauHoi);
+        request.getRequestDispatcher("views/cauhoi.jsp").forward(request, response);
+    }
+
+    // 🟡 Hiển thị form chỉnh sửa
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            CauHoi ch = cauHoiDAO.getCauHoiById(id);
+
+            if (ch == null) {
+                response.sendRedirect("cauhoi?error=notfound");
+                return;
+            }
+
+            request.setAttribute("cauHoi", ch);
+            request.getRequestDispatcher("views/edit-cauhoi.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            response.sendRedirect("cauhoi?error=invalidid");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi hệ thống!");
+        }
+    }
+
+    // 🟠 Thêm câu hỏi
+    private void insertCauHoi(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            String noiDung = request.getParameter("noiDung");
+            int doKho = Integer.parseInt(request.getParameter("doKho"));
+            int deThiID = Integer.parseInt(request.getParameter("deThiID"));
+
+            if (noiDung.isEmpty()) {
+                request.setAttribute("error", "Nội dung không được để trống!");
+                request.getRequestDispatcher("views/cauhoi.jsp").forward(request, response);
+                return;
+            }
+
+            CauHoi ch = new CauHoi(0, noiDung, doKho, deThiID);
             cauHoiDAO.addCauHoi(ch);
-            response.sendRedirect("views/cauhoi.jsp");
-        } else if ("update".equals(action)) {
-            int maCauHoi = Integer.parseInt(request.getParameter("maCauHoi"));
-            String noiDung = request.getParameter("noiDung");
-            int maDe = Integer.parseInt(request.getParameter("maDe"));
-            int doKho = Integer.parseInt(request.getParameter("doKho"));
+            response.sendRedirect("cauhoi");
 
-            CauHoi ch = new CauHoi(maCauHoi, noiDung, maDe, doKho);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi thêm câu hỏi!");
+        }
+    }
+
+    // 🟢 Cập nhật câu hỏi
+    private void updateCauHoi(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String noiDung = request.getParameter("noiDung");
+            int doKho = Integer.parseInt(request.getParameter("doKho"));
+            int deThiID = Integer.parseInt(request.getParameter("deThiID"));
+
+            if (noiDung.isEmpty()) {
+                request.setAttribute("error", "Nội dung không được để trống!");
+                request.getRequestDispatcher("views/edit-cauhoi.jsp").forward(request, response);
+                return;
+            }
+
+            CauHoi ch = new CauHoi(id, noiDung, doKho, deThiID);
             cauHoiDAO.updateCauHoi(ch);
-            response.sendRedirect("views/cauhoi.jsp");
+            response.sendRedirect("cauhoi");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi cập nhật câu hỏi!");
+        }
+    }
+
+    // 🔴 Xóa câu hỏi
+    private void deleteCauHoi(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            cauHoiDAO.deleteCauHoi(id);
+            response.sendRedirect("cauhoi");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi xóa câu hỏi!");
         }
     }
 }

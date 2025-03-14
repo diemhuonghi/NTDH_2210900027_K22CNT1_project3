@@ -1,97 +1,86 @@
 package dao;
 
+import model.MonHoc;
+import util.DBConnect;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.MonHoc;
-
 public class MonHocDAO {
-    private Connection conn;
-
-    public MonHocDAO(Connection conn) {
-        this.conn = conn;
-    }
-
-    // Lấy danh sách môn học
+    
     public List<MonHoc> getAllMonHoc() {
         List<MonHoc> list = new ArrayList<>();
         String query = "SELECT * FROM NTDH_MON_HOC";
-
-        try (PreparedStatement ps = conn.prepareStatement(query);
+        
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
+            
             while (rs.next()) {
-                list.add(new MonHoc(
-                    rs.getInt("MaMH"),
-                    rs.getString("TenMH"),
-                    rs.getBoolean("TrangThai")
-                ));
+                MonHoc mh = new MonHoc(
+                    rs.getInt("id"),
+                    rs.getString("TenMon")
+                );
+                list.add(mh);
             }
         } catch (SQLException e) {
-            System.err.println("Lỗi lấy danh sách môn học: " + e.getMessage());
+            e.printStackTrace();
         }
         return list;
     }
-    public MonHoc getMonHocById(int maMH) {
-        MonHoc monHoc = null;
-        String query = "SELECT * FROM NTDH_MON_HOC WHERE MaMH = ?";
+
+    public void addMonHoc(MonHoc mh) {
+        String query = "INSERT INTO NTDH_MON_HOC (TenMon) VALUES (?)";
         
-        try (PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, maMH);
-            ResultSet rs = ps.executeQuery();
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
             
+            ps.setString(1, mh.getTenMon());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateMonHoc(MonHoc mh) {
+        String query = "UPDATE NTDH_MON_HOC SET TenMon = ? WHERE id = ?";
+
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, mh.getTenMon());
+            ps.setInt(2, mh.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public MonHoc getMonHocById(int id) {
+        String query = "SELECT * FROM NTDH_MON_HOC WHERE id = ?";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                monHoc = new MonHoc(
-                    rs.getInt("MaMH"),
-                    rs.getString("TenMH"),
-                    rs.getBoolean("TrangThai")
-                );
+                return new MonHoc(rs.getInt("id"), rs.getString("TenMon"));
             }
         } catch (SQLException e) {
-            System.err.println("Lỗi lấy môn học: " + e.getMessage());
+            e.printStackTrace();
         }
-        
-        return monHoc;
+        return null;
     }
 
+    public void deleteMonHoc(int id) {
+        String query = "DELETE FROM NTDH_MON_HOC WHERE id = ?";
 
-    // Thêm môn học
-    public boolean addMonHoc(MonHoc monHoc) {
-        String query = "INSERT INTO NTDH_MON_HOC (MaMH, TenMH, TrangThai) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, monHoc.getMaMH());
-            ps.setString(2, monHoc.getTenMH());
-            ps.setBoolean(3, monHoc.isTrangThai());
-            return ps.executeUpdate() > 0;
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Lỗi thêm môn học: " + e.getMessage());
-            return false;
+            e.printStackTrace();
         }
     }
 
-    // Cập nhật môn học
-    public boolean updateMonHoc(MonHoc monHoc) {
-        String query = "UPDATE NTDH_MON_HOC SET TenMH = ?, TrangThai = ? WHERE MaMH = ?";
-        try (PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, monHoc.getTenMH());
-            ps.setBoolean(2, monHoc.isTrangThai());
-            ps.setInt(3, monHoc.getMaMH());
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            System.err.println("Lỗi cập nhật môn học: " + e.getMessage());
-            return false;
-        }
-    }
-
-    // Xóa môn học
-    public boolean deleteMonHoc(int maMH) {
-        String query = "DELETE FROM NTDH_MON_HOC WHERE MaMH = ?";
-        try (PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, maMH);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            System.err.println("Lỗi xóa môn học: " + e.getMessage());
-            return false;
-        }
-    }
 }

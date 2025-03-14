@@ -1,0 +1,181 @@
+/* style.css */
+
+/* Reset mặc định */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Nền gradient cho toàn trang */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #c2e9fb, #e2ebf0);
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Container trắng ở giữa */
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 40px 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border: 3px solid rgba(42,88,133,0.2); /* viền nhạt màu xanh */
+}
+
+/* Header */
+header.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header.header h1 {
+  font-size: 2.5rem;
+  color: #2a5885;
+  margin-bottom: 0.3em;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+}
+
+header.header p {
+  color: #666;
+  font-size: 1rem;
+}
+
+/* Thanh điều hướng ngang */
+.navbar {
+  display: flex;
+  justify-content: center;
+  background-color: #2a5885;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.navbar a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+
+/* Đưa Đăng xuất ra cuối cùng */
+.navbar .logout {
+  margin-left: auto;
+  font-weight: bold;
+  color: #ffcccc;
+}
+
+/* Gom Đăng ký/Đăng nhập vào một mục */
+.navbar .auth {
+  font-weight: bold;
+}
+
+/* Tiêu đề bên trong container */
+.container h2 {
+  font-size: 2rem;
+  color: #2a5885;
+  text-align: center;
+  margin-bottom: 1.5em;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.container h3 {
+  font-size: 1.4rem;
+  color: #2a5885;
+  margin-bottom: 1em;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Bảng */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border-radius: 6px; /* Bo góc bảng */
+  overflow: hidden;   /* Ẩn góc thừa */
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+/* Header bảng gradient xanh đậm */
+table th {
+  background: linear-gradient(120deg, #2a5885, #1e446a);
+  color: #fff;
+}
+
+/* Hàng chẵn màu xám nhạt */
+tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+
+/* Hover trên mỗi hàng */
+table tr:hover td {
+  background-color: #e6f2f9;
+  transition: background-color 0.3s ease;
+}
+
+/* Form */
+form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="number"],
+form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+form input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+form input[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #2a5885;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+  background-color: #1e446a;
+}
+
+/* Footer */
+footer.footer {
+  text-align: center;
+  margin-top: auto;
+  color: #666;
+  font-size: 0.9rem;
+  padding: 10px 0;
+  opacity: 0.8;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}

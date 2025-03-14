@@ -1,32 +1,27 @@
 package model;
 
 public class BaiLamChiTiet {
-    private int maChiTiet;
-    private int maBaiLam;
-    private int maCauHoi;
-    private int maDapAn;
-    private boolean isCorrect;
+    private int id;
+    private int baiLamID;
+    private int cauHoiID;
+    private int dapAnID;
 
-    public BaiLamChiTiet(int maChiTiet, int maBaiLam, int maCauHoi, int maDapAn, boolean isCorrect) {
-        this.maChiTiet = maChiTiet;
-        this.maBaiLam = maBaiLam;
-        this.maCauHoi = maCauHoi;
-        this.maDapAn = maDapAn;
-        this.isCorrect = isCorrect;
+    public BaiLamChiTiet() {}
+
+    public BaiLamChiTiet(int id, int baiLamID, int cauHoiID, int dapAnID) {
+        this.id = id;
+        this.baiLamID = baiLamID;
+        this.cauHoiID = cauHoiID;
+        this.dapAnID = dapAnID;
     }
 
-    public int getMaChiTiet() { return maChiTiet; }
-    public void setMaChiTiet(int maChiTiet) { this.maChiTiet = maChiTiet; }
-
-    public int getMaBaiLam() { return maBaiLam; }
-    public void setMaBaiLam(int maBaiLam) { this.maBaiLam = maBaiLam; }
-
-    public int getMaCauHoi() { return maCauHoi; }
-    public void setMaCauHoi(int maCauHoi) { this.maCauHoi = maCauHoi; }
-
-    public int getMaDapAn() { return maDapAn; }
-    public void setMaDapAn(int maDapAn) { this.maDapAn = maDapAn; }
-
-    public boolean isCorrect() { return isCorrect; }
-    public void setCorrect(boolean correct) { isCorrect = correct; }
+    // GETTER - SETTER
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    public int getBaiLamID() { return baiLamID; }
+    public void setBaiLamID(int baiLamID) { this.baiLamID = baiLamID; }
+    public int getCauHoiID() { return cauHoiID; }
+    public void setCauHoiID(int cauHoiID) { this.cauHoiID = cauHoiID; }
+    public int getDapAnID() { return dapAnID; }
+    public void setDapAnID(int dapAnID) { this.dapAnID = dapAnID; }
 }
