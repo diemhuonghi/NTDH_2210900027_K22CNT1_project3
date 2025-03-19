@@ -113,6 +113,12 @@ p a:hover {
             <button type="submit">Đăng Ký</button>
         </form>
         <p>Đã có tài khoản? <a href="${pageContext.request.contextPath}/Home/login-user.jsp">Đăng nhập</a></p>
+        <div >
+    <a href="<%= request.getContextPath() %>/Home/Index.jsp" 
+       style="color: #d32f2f; font-weight: bold; text-decoration: none; transition: color 0.3s ease-in-out; font-size: 18px;">
+        🏠 Quay lại 
+    </a>
+</div>
     </div>
 </body>
 </html>

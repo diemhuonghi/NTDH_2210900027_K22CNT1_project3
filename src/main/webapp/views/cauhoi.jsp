@@ -6,120 +6,131 @@
 <head>
     <title>Quản lý Câu Hỏi</title>
     <style>
-        /* Nền trang xanh nhạt giống ảnh */
         body {
-            background-color: #e9f2fa; 
+            background: linear-gradient(to bottom, #EAF2F8, #D6EAF8);
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
         }
-
-        /* Khung container trắng, bo góc, bóng đổ */
+        .header {
+            background-color: #5DADE2;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 80%;
+        }
         .container {
             width: 80%;
             margin: 20px auto;
-            background: #fff;
             padding: 20px;
+            background: linear-gradient(to bottom, #ffffff, #e3f2fd);
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
-
-        /* Tiêu đề */
-        h2, h3 {
-            text-align: center;
-            color: #333;
-        }
-
-        /* Bảng danh sách */
-        table {
+        .table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #fff;
         }
-        table th {
-            background-color: #5da2d5; /* Xanh đậm cho tiêu đề */
-            color: white;
-            padding: 10px;
-        }
-        table td {
-            padding: 8px;
+        .table th, .table td {
             border: 1px solid #ddd;
-            text-align: center;
+            padding: 10px;
+            text-align: left;
         }
-        /* Hàng chẵn màu xanh rất nhạt */
-        tr:nth-child(even) {
-            background-color: #f2f8fd;
-        }
-        /* Hover row (tùy chọn) */
-        tr:hover {
-            background-color: #d0e4f5;
-        }
-
-        /* Nút xanh lá #28a745 */
-        .btn-green {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 12px;
-            background-color: #28a745;
+        .table th {
+            background-color: #5DADE2;
             color: white;
+        }
+        .btn {
+            padding: 8px 12px;
             border: none;
             border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
             cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
+            display: inline-block;
         }
-        .btn-green:hover {
-            background-color: #218838;
+        .btn-edit {
+            background-color: #f0ad4e;
         }
-
-        /* Form ẩn ban đầu, bo góc, bóng đổ */
-        .hidden-form {
-            display: none;
-            padding: 20px;
-            border-radius: 10px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .btn-edit:hover {
+            background-color: #ec971f;
+        }
+        .btn-delete {
+            background-color: #d9534f;
+        }
+        .btn-delete:hover {
+            background-color: #c9302c;
+        }
+        .form-container {
             margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(to bottom, #ffffff, #e3f2fd);
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
         }
-        /* Ô nhập liệu */
-        input, textarea {
+        .form-container input, .form-container textarea {
             width: 100%;
-            padding: 10px;
-            margin: 5px 0;
+            padding: 8px;
+            margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        /* Nút submit */
-        input[type="submit"] {
+        .form-container button {
+            width: 100%;
+            background-color: #5DADE2;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .form-container button:hover {
+            background-color: #3498db;
+        }
+        .toggle-btn {
             background-color: #28a745;
             color: white;
+            padding: 10px 15px;
             border: none;
-            padding: 12px;
-            font-size: 16px;
-            cursor: pointer;
             border-radius: 5px;
-            transition: 0.3s;
+            cursor: pointer;
+            display: block;
+            width: 200px;
+            text-align: center;
+            margin: 20px auto;
         }
-        input[type="submit"]:hover {
+        .toggle-btn:hover {
             background-color: #218838;
         }
     </style>
     <script>
-        /* Ẩn/hiện form thêm câu hỏi */
         function toggleForm() {
-            var form = document.getElementById("formCauHoi");
-            form.style.display = (form.style.display === "none") ? "block" : "none";
+            var form = document.getElementById("form-container");
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
         }
     </script>
 </head>
 <body>
+    <div class="header">Quản lý Câu Hỏi</div>
     <div class="container">
         <h2>Danh sách Câu Hỏi</h2>
-        <table>
+        <div >
+    <a href="<%= request.getContextPath() %>/Home/dashboard.jsp" 
+       style="color: #d32f2f; font-weight: bold; text-decoration: none; transition: color 0.3s ease-in-out; font-size: 18px;">
+       🏠 Quay lại
+    </a>
+</div>
+        <table class="table">
             <tr>
                 <th>ID</th>
                 <th>Nội Dung</th>
@@ -127,40 +138,36 @@
                 <th>Đề Thi ID</th>
                 <th>Hành Động</th>
             </tr>
-            <%
-                List<CauHoi> dsCH = (List<CauHoi>) request.getAttribute("danhSachCauHoi");
-                if(dsCH != null) {
-                    for(CauHoi ch : dsCH) {
-            %>
+            <% List<CauHoi> dsCH = (List<CauHoi>) request.getAttribute("danhSachCauHoi");
+               if(dsCH != null) {
+                   for(CauHoi ch : dsCH) { %>
             <tr>
                 <td><%= ch.getId() %></td>
                 <td><%= ch.getNoiDung() %></td>
                 <td><%= ch.getDoKho() %></td>
                 <td><%= ch.getDeThiID() %></td>
                 <td>
-                           <a href="cauhoi?action=edit&id=<%= ch.getId() %>" class="btn btn-edit">Chỉnh sửa</a>
-                           <a href="cauhoi?action=delete&id=<%= ch.getId() %>" 
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa?');" 
-                                   class="btn btn-delete">Xóa</a>
-                            </td>
+                    <a href="cauhoi?action=edit&id=<%= ch.getId() %>" class="btn btn-edit">Chỉnh sửa</a>
+                    <a href="cauhoi?action=delete&id=<%= ch.getId() %>" 
+                       onclick="return confirm('Bạn có chắc chắn muốn xóa?');" 
+                       class="btn btn-delete">Xóa</a>
+                </td>
             </tr>
-            <%
-                    }
-                }
-            %>
+            <% } } %>
         </table>
+        
+        <button class="toggle-btn" onclick="toggleForm()">Thêm Câu Hỏi</button>
 
-        <!-- Nút bấm hiển thị form thêm -->
-        <button class="btn-green" onclick="toggleForm()">Thêm Câu Hỏi</button>
-
-        <!-- Form thêm (mặc định ẩn) -->
-        <div id="formCauHoi" class="hidden-form">
-            <h3>Thêm Câu Hỏi</h3>
+        <div id="form-container" class="form-container">
+            <h2>Thêm Câu Hỏi</h2>
             <form action="cauhoi" method="post">
-                Nội Dung: <textarea name="noiDung" rows="3" required></textarea><br/>
-                Độ Khó (1-10): <input type="number" name="doKho" min="1" max="10" required/><br/>
-                Đề Thi ID: <input type="number" name="deThiID" required/><br/>
-                <input type="submit" value="Thêm"/>
+                <label>Nội Dung:</label>
+                <textarea name="noiDung" rows="3" required></textarea>
+                <label>Độ Khó (1-10):</label>
+                <input type="number" name="doKho" min="1" max="10" required/>
+                <label>Đề Thi ID:</label>
+                <input type="number" name="deThiID" required/>
+                <button type="submit">Thêm</button>
             </form>
         </div>
     </div>

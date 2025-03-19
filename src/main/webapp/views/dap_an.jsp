@@ -6,15 +6,12 @@
 <head>
     <title>Quản lý Đáp Án</title>
     <style>
-        /* Nền trang xanh nhạt như ảnh */
         body {
             background-color: #e9f2fa; 
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
-
-        /* Khung container trắng, bo góc, bóng đổ */
         .container {
             width: 80%;
             margin: 20px auto;
@@ -23,14 +20,10 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        /* Tiêu đề */
         h2, h3 {
             text-align: center;
             color: #333;
         }
-
-        /* Bảng danh sách */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -40,7 +33,7 @@
             background: #fff;
         }
         table th {
-            background-color: #5da2d5; /* Xanh đậm cho tiêu đề */
+            background-color: #5da2d5;
             color: white;
             padding: 10px;
         }
@@ -49,16 +42,12 @@
             border: 1px solid #ddd;
             text-align: center;
         }
-        /* Hàng chẵn màu xanh rất nhạt */
         tr:nth-child(even) {
             background-color: #f2f8fd;
         }
-        /* Hover row */
         tr:hover {
             background-color: #d0e4f5;
         }
-
-        /* Nút hiển thị form (xanh lá #28a745) */
         .btn-green {
             display: block;
             width: 200px;
@@ -76,8 +65,6 @@
         .btn-green:hover {
             background-color: #218838;
         }
-
-        /* Form ẩn ban đầu, bo góc, bóng đổ */
         .hidden-form {
             display: none;
             padding: 20px;
@@ -86,7 +73,6 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
         }
-        /* Ô nhập liệu */
         input, textarea {
             width: 100%;
             padding: 10px;
@@ -94,7 +80,6 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        /* Nút submit */
         input[type="submit"] {
             background-color: #28a745;
             color: white;
@@ -108,9 +93,38 @@
         input[type="submit"]:hover {
             background-color: #218838;
         }
+        .btn-edit {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #e6a23c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .btn-edit:hover {
+            background-color: #cf8a2e;
+        }
+        .btn-delete {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .btn-delete:hover {
+            background-color: #c9302c;
+        }
     </style>
     <script>
-        // Ẩn/hiện form thêm đáp án
         function toggleForm() {
             var form = document.getElementById("formDapAn");
             form.style.display = (form.style.display === "none") ? "block" : "none";
@@ -120,6 +134,12 @@
 <body>
     <div class="container">
         <h2>Danh sách Đáp Án</h2>
+         <div >
+    <a href="<%= request.getContextPath() %>/Home/dashboard.jsp" 
+       style="color: #d32f2f; font-weight: bold; text-decoration: none; transition: color 0.3s ease-in-out; font-size: 18px;">
+       🏠 Quay lại
+    </a>
+</div>
         <table>
             <tr>
                 <th>ID</th>
@@ -138,23 +158,19 @@
                 <td><%= da.getCauHoiID() %></td>
                 <td><%= da.getNoiDung() %></td>
                 <td><%= da.isDapAnDung() ? "Đúng" : "Sai" %></td>
-                 <td>
-                           <a href="dapan?action=edit&id=<%= da.getId() %>" class="btn btn-edit">Chỉnh sửa</a>
-                           <a href="dapan?action=delete&id=<%= da.getId() %>" 
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa?');" 
-                                   class="btn btn-delete">Xóa</a>
-                            </td>
+                <td>
+                    <a href="dapan?action=edit&id=<%= da.getId() %>" class="btn-edit">Chỉnh sửa</a>
+                    <a href="dapan?action=delete&id=<%= da.getId() %>" 
+                        onclick="return confirm('Bạn có chắc chắn muốn xóa?');" 
+                        class="btn-delete">Xóa</a>
+                </td>
             </tr>
             <%
                     }
                 }
             %>
         </table>
-
-        <!-- Nút bấm hiển thị form thêm -->
         <button class="btn-green" onclick="toggleForm()">Thêm Đáp Án</button>
-
-        <!-- Form thêm (mặc định ẩn) -->
         <div id="formDapAn" class="hidden-form">
             <h3>Thêm Đáp Án</h3>
             <form action="dapan" method="post">

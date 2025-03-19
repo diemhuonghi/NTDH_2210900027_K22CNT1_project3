@@ -46,7 +46,7 @@
     </ul>
 
     <h3>📊 Xem kết quả bài làm</h3>
-    <a href="${pageContext.request.contextPath}/user/xem-diem.jsp">📝 Đề Thi</a>
+    <a href="${pageContext.request.contextPath}/user/xem-diem.jsp">📝 Kết Quả Thi</a>
 
     <form action="<%= request.getContextPath() %>/hocsinh?action=logout" method="post">
         <button type="submit" class="btn btn-danger">🚪 Đăng xuất</button>

@@ -17,6 +17,7 @@
 <body>
     <div class="login-container">
         <h2>Đăng nhập Học Sinh</h2>
+        
         <% if (error != null) { %>
             <p class="error"><%= error %></p>
         <% } %>
@@ -27,6 +28,12 @@
             <label for="matKhau">Mật khẩu:</label>
             <input type="password" id="matKhau" name="matKhau" required>
             <button type="submit">Đăng nhập</button>
+            <div >
+    <a href="<%= request.getContextPath() %>/Home/Index.jsp" 
+       style="color: #d32f2f; font-weight: bold; text-decoration: none; transition: color 0.3s ease-in-out; font-size: 18px;">
+        🏠 Quay lại 
+    </a>
+</div>
         </form>
     </div>
 </body>

@@ -15,7 +15,10 @@ import model.CauHoi;
 
 @WebServlet("/LamBaiServlet")
 	public class LamBaiServlet extends HttpServlet {
+	
 	    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    	request.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
 	        String deThiIDStr = request.getParameter("deThiID");
 	        
 	        // Kiểm tra nếu thiếu tham số

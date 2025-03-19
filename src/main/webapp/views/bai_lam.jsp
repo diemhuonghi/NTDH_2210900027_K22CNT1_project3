@@ -6,14 +6,12 @@
 <head>
     <title>Quản lý Bài Làm</title>
     <style>
-        /* Nền trang gradient xanh nhạt */
         body {
             background: linear-gradient(to right, #EAF2F8, #D6EAF8);
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
-        /* Container chứa nội dung */
         .container {
             width: 80%;
             margin: 20px auto;
@@ -22,12 +20,10 @@
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        /* Tiêu đề */
         h2, h3 {
             text-align: center;
             color: #333;
         }
-        /* Bảng danh sách */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -42,20 +38,16 @@
             padding: 12px;
             text-align: center;
         }
-        /* Header bảng có gradient xanh đậm dần */
         table th {
             background: linear-gradient(to right, #5DADE2, #3498db);
             color: white;
         }
-        /* Hàng chẵn màu xanh rất nhạt */
         tr:nth-child(even) {
             background-color: #f2f8fd;
         }
-        /* Hover row */
         tr:hover {
             background-color: #d0e4f5;
         }
-        /* Form thêm bài làm */
         form {
             width: 50%;
             margin: 20px auto;
@@ -82,11 +74,45 @@
         form input[type="submit"]:hover {
             background-color: #218838;
         }
+        /* Nút chỉnh sửa (màu cam) */
+        .btn-edit {
+            background-color: #E7A33E;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-edit:hover {
+            background-color: #D48C2A;
+        }
+        /* Nút xóa (màu đỏ đậm) */
+        .btn-delete {
+            background-color: #D9534F;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-delete:hover {
+            background-color: #C9302C;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Danh sách Bài Làm</h2>
+         <div >
+    <a href="<%= request.getContextPath() %>/Home/dashboard.jsp" 
+       style="color: #d32f2f; font-weight: bold; text-decoration: none; transition: color 0.3s ease-in-out; font-size: 18px;">
+       🏠 Quay lại
+    </a>
+</div>
         <table>
             <tr>
                 <th>ID</th>
@@ -94,6 +120,7 @@
                 <th>Đề Thi ID</th>
                 <th>Điểm</th>
                 <th>Thời Gian Nộp</th>
+                <th>Hành Động</th>
             </tr>
             <%
                 List<BaiLam> dsBL = (List<BaiLam>) request.getAttribute("danhSachBaiLam");
@@ -107,11 +134,11 @@
                 <td><%= bl.getDiem() %></td>
                 <td><%= bl.getThoiGianNop() %></td>
                 <td>
-                           <a href="bailam?action=edit&id=<%= bl.getId() %>" class="btn btn-edit">Chỉnh sửa</a>
-                           <a href="bailam?action=delete&id=<%= bl.getId() %>" 
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa?');" 
-                                   class="btn btn-delete">Xóa</a>
-                            </td>
+                    <a href="bailam?action=edit&id=<%= bl.getId() %>" class="btn-edit">Chỉnh sửa</a>
+                    <a href="bailam?action=delete&id=<%= bl.getId() %>" 
+                       onclick="return confirm('Bạn có chắc chắn muốn xóa?');" 
+                       class="btn-delete">Xóa</a>
+                </td>
             </tr>
             <%
                     }

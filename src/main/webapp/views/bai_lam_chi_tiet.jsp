@@ -25,7 +25,7 @@
         /* Tiêu đề */
         h2, h3 {
             text-align: center;
-            color: #BLACK;
+            color: #333;
         }
         /* Bảng */
         table {
@@ -82,17 +82,52 @@
         form input[type="submit"]:hover {
             background-color: #218838;
         }
+        /* Nút chỉnh sửa (màu cam) */
+        .btn-edit {
+            background-color: #E7A33E;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-edit:hover {
+            background-color: #D48C2A;
+        }
+        /* Nút xóa (màu đỏ đậm) */
+        .btn-delete {
+            background-color: #D9534F;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-delete:hover {
+            background-color: #C9302C;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Danh sách Bài Làm Chi Tiết</h2>
+        <div >
+    <a href="<%= request.getContextPath() %>/Home/dashboard.jsp" 
+       style="color: #d32f2f; font-weight: bold; text-decoration: none; transition: color 0.3s ease-in-out; font-size: 18px;">
+       🏠 Quay lại 
+    </a>
+</div>
         <table>
             <tr>
                 <th>ID</th>
                 <th>Bài Làm ID</th>
                 <th>Câu Hỏi ID</th>
                 <th>Đáp Án ID</th>
+                <th>Hành Động</th>
             </tr>
             <%
                 /* Lấy danh sách Bài Làm Chi Tiết từ Servlet */
@@ -105,12 +140,12 @@
                 <td><%= blct.getBaiLamID() %></td>
                 <td><%= blct.getCauHoiID() %></td>
                 <td><%= blct.getDapAnID() %></td>
-                 <td>
-                           <a href="bailamchitiet?action=edit&id=<%= blct.getId() %>" class="btn btn-edit">Chỉnh sửa</a>
-                           <a href="bailamchitiet?action=delete&id=<%= blct.getId() %>" 
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa?');" 
-                                   class="btn btn-delete">Xóa</a>
-                            </td>
+                <td>
+                    <a href="bailamchitiet?action=edit&id=<%= blct.getId() %>" class="btn-edit">Chỉnh sửa</a>
+                    <a href="bailamchitiet?action=delete&id=<%= blct.getId() %>" 
+                       onclick="return confirm('Bạn có chắc chắn muốn xóa?');" 
+                       class="btn-delete">Xóa</a>
+                </td>
             </tr>
             <%
                     }

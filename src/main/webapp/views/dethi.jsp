@@ -58,7 +58,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        .form-container button {
+        .form-container .btn {
             width: 100%;
             background-color: #5DADE2;
             color: white;
@@ -67,8 +67,10 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 15px;
+            text-align: center;
+            display: block;
         }
-        .form-container button:hover {
+        .form-container .btn:hover {
             background-color: #3498db;
         }
         .toggle-btn {
@@ -86,6 +88,26 @@
         .toggle-btn:hover {
             background-color: #218838;
         }
+        .btn-edit {
+            background-color: #ffc107;
+            color: black;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn-edit:hover {
+            background-color: #e0a800;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
     </style>
     <script>
         function toggleForm() {
@@ -102,6 +124,12 @@
     <div class="header">Thi Trắc Nghiệm - Đề Thi</div>
     <div class="container">
         <h2>Danh sách Đề Thi</h2>
+         <div >
+    <a href="<%= request.getContextPath() %>/Home/dashboard.jsp" 
+       style="color: #d32f2f; font-weight: bold; text-decoration: none; transition: color 0.3s ease-in-out; font-size: 18px;">
+       🏠 Quay lại
+    </a>
+</div>
         <table class="table">
             <tr>
                 <th>ID</th>
@@ -111,7 +139,7 @@
                 <th>Ngày Tạo</th>
                 <th>Giáo Viên ID</th>
                 <th>Môn Học ID</th>
-                 <th>Hành Động</th>
+                <th>Hành Động</th>
             </tr>
             <% List<DeThi> dsDT = (List<DeThi>) request.getAttribute("danhSachDeThi");
                if(dsDT != null) {
@@ -124,12 +152,12 @@
                 <td><%= dt.getNgayTao() %></td>
                 <td><%= dt.getGiaoVienID() %></td>
                 <td><%= dt.getMonHocID() %></td>
-                 <td>
-                           <a href="dethi?action=edit&id=<%= dt.getId() %>" class="btn btn-edit">Chỉnh sửa</a>
-                           <a href="dethi?action=delete&id=<%= dt.getId() %>" 
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa?');" 
-                                   class="btn btn-delete">Xóa</a>
-                            </td>
+                <td>
+                    <a href="dethi?action=edit&id=<%= dt.getId() %>" class="btn-edit">Chỉnh sửa</a>
+                    <a href="dethi?action=delete&id=<%= dt.getId() %>" 
+                       onclick="return confirm('Bạn có chắc chắn muốn xóa?');" 
+                       class="btn-delete">Xóa</a>
+                </td>
             </tr>
             <% } } %>
         </table>
@@ -149,9 +177,4 @@
                 <input type="number" name="giaoVienID" required/>
                 <label>Môn Học ID:</label>
                 <input type="number" name="monHocID" required/>
-                <button type="submit">Thêm</button>
-            </form>
-        </div>
-    </div>
-</body>
-</html>
+                <button type="submit" class="btn">Thêm</button>

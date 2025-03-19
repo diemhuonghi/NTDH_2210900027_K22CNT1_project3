@@ -10,6 +10,9 @@
 <body>
     <div class="container">
         <h2>Chỉnh Sửa Môn Học</h2>
+         <div class="card-footer text-center">
+            <a href="<%= request.getContextPath() %>/views/monhoc.jsp" class="btn btn-link">Quay lại trang chủ</a>
+        </div>
         <form action="${pageContext.request.contextPath}/monhoc" method="post">
             <input type="hidden" name="action" value="update">
             <input type="hidden" name="id" value="${monHoc.id}">

@@ -160,6 +160,12 @@ input[type="submit"]:hover {
 
     <div class="container">
         <h2>Danh sách Giáo Viên</h2>
+         <div >
+    <a href="<%= request.getContextPath() %>/Home/dashboard.jsp" 
+       style="color: #d32f2f; font-weight: bold; text-decoration: none; transition: color 0.3s ease-in-out; font-size: 18px;">
+       🏠 Quay lại 
+    </a>
+</div>
         <table>
             <tr>
                 <th>ID</th>

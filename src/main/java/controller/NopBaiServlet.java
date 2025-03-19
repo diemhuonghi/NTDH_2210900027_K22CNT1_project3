@@ -23,6 +23,8 @@ import java.util.List;
 @WebServlet("/user/NopBaiServlet")
 public class NopBaiServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
         HttpSession session = request.getSession();
         HocSinh user = (HocSinh) session.getAttribute("user");
         if (user == null) {
@@ -50,6 +52,9 @@ public class NopBaiServlet extends HttpServlet {
 
         float diem = (soCauDung * 10.0f) / dsCauHoi.size();
         baiLamDAO.capNhatDiem(baiLamID, diem);
+
+        // Lưu điểm vào session
+        session.setAttribute("diem", diem);
 
         response.sendRedirect(request.getContextPath() + "/user/xem-diem.jsp");
 
